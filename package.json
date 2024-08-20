@@ -1,0 +1,19 @@
+{
+  "type": "module",
+  "dependencies": {
+    "@ethersproject/contracts": "5.7.0",
+    "@ethersproject/providers": "5.7.2",
+    "@ethersproject/wallet": "5.7.0",
+    "@hashgraph/sdk": "2.31.0",
+    "dotenv": "16.3.1",
+    "hedera-sdk-js": "^1.0.4",
+    "ethers": "^5.7.0",
+    "hashgraphcontracts": "github:hashgraph/hedera-smart-contracts"
+  },
+  "devDependencies": {
+    "tape": "5.7.2"
+  },
+  "scripts": {
+    "test": "node test-script.spec.js"
+  }
+}
