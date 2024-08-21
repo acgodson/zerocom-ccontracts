@@ -1,0 +1,438 @@
+{
+	"compiler": {
+		"version": "0.8.20+commit.a1b79de6"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "exchangeToken",
+						"type": "address"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "agent",
+						"type": "address"
+					}
+				],
+				"name": "AgentActivated",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "agent",
+						"type": "address"
+					}
+				],
+				"name": "AgentFrozen",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "agent",
+						"type": "address"
+					}
+				],
+				"name": "AgentUnfrozen",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "agent",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "CreditsDeducted",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "HIGH_RATE",
+				"outputs": [
+					{
+						"internalType": "int64",
+						"name": "",
+						"type": "int64"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "LOW_RATE",
+				"outputs": [
+					{
+						"internalType": "int64",
+						"name": "",
+						"type": "int64"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "MEDIUM_RATE",
+				"outputs": [
+					{
+						"internalType": "int64",
+						"name": "",
+						"type": "int64"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "agents",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bool",
+						"name": "freeze",
+						"type": "bool"
+					}
+				],
+				"name": "freezeAgent",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "agent",
+						"type": "address"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "requestHash",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "enum ZeroComController.OperationType",
+						"name": "predictedTokenUsage",
+						"type": "uint8"
+					}
+				],
+				"name": "generateIdempotencyKey",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					}
+				],
+				"name": "getUserAgent",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"name": "idempotencyKeys",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "agent",
+						"type": "address"
+					},
+					{
+						"internalType": "enum ZeroComController.OperationType",
+						"name": "predictedTokenUsage",
+						"type": "uint8"
+					},
+					{
+						"internalType": "bool",
+						"name": "processed",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "isAgentFrozen",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "enum ZeroComController.OperationType",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"name": "operationRates",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "agent",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "revenueTeam",
+						"type": "address"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "idempotencyKey",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "int64",
+						"name": "actualTokenUsage",
+						"type": "int64"
+					},
+					{
+						"internalType": "enum ZeroComController.OperationType",
+						"name": "operation",
+						"type": "uint8"
+					}
+				],
+				"name": "processIdempotencyKey",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_agent",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_owner",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_cap",
+						"type": "uint256"
+					}
+				],
+				"name": "registerAgent",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "enum ZeroComController.OperationType",
+						"name": "operation",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint256",
+						"name": "rate",
+						"type": "uint256"
+					}
+				],
+				"name": "setOperationRate",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "agent",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "cap",
+						"type": "uint256"
+					}
+				],
+				"name": "setSpendingCap",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "spendingCaps",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "token",
+				"outputs": [
+					{
+						"internalType": "contract IERC20",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"controller.sol": "ZeroComController"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"controller.sol": {
+			"keccak256": "0x8d6cdd65ea3cd93aac406ac05b596e808a214a0a8440279c9d211a2f8230dfca",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://d3ecf75d089199246d0947b2fcb5b74453593e9bcbd49ce341beff600efdc324",
+				"dweb:/ipfs/QmQTycuFxWfNmxCUkEZ9HsjkD3PCVDupojyrVn7fNTk522"
+			]
+		}
+	},
+	"version": 1
+}

@@ -1,0 +1,77 @@
+{
+	"compiler": {
+		"version": "0.8.20+commit.a1b79de6"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "getOwner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "receiver",
+						"type": "address"
+					},
+					{
+						"internalType": "int64",
+						"name": "amount",
+						"type": "int64"
+					}
+				],
+				"name": "transferToken",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"controller.sol": "IZeroComAgent"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"controller.sol": {
+			"keccak256": "0x8d6cdd65ea3cd93aac406ac05b596e808a214a0a8440279c9d211a2f8230dfca",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://d3ecf75d089199246d0947b2fcb5b74453593e9bcbd49ce341beff600efdc324",
+				"dweb:/ipfs/QmQTycuFxWfNmxCUkEZ9HsjkD3PCVDupojyrVn7fNTk522"
+			]
+		}
+	},
+	"version": 1
+}

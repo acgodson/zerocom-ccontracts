@@ -189,15 +189,15 @@ async function main() {
   // return;
 
   console.log("Creating token...");
-  // const { tokenId, tokenAddress } = await createToken(
-  //   client,
-  //   operatorKey,
-  //   accountId
-  // );
-  // console.log("Token created at address:", tokenAddress);
-  // 000000000000000000000000000000000047c209
-  const tokenId = "0.0.4705149";
-  const tokenAddress = "000000000000000000000000000000000047cb7d";
+  const { tokenId, tokenAddress } = await createToken(
+    client,
+    operatorKey,
+    accountId
+  );
+  console.log("Token created at address:", tokenAddress);
+
+  // const tokenId = "0.0.4705149";
+  // const tokenAddress = "000000000000000000000000000000000047cb7d";
 
   console.log("Deploying controller contract...");
   const controllerContract = await deployControllerContract(
@@ -221,8 +221,6 @@ async function main() {
   );
   console.log(`Agent deployed at: ${agentContract.address}`);
 
-  return;
-
   await new Promise((resolve) => setTimeout(resolve, 3000));
 
   const agentId = await getContractIdFromEvmAddress(agentContract.address);
@@ -244,21 +242,30 @@ async function main() {
     operatorKey
   );
 
-  // now we return the tokens back to the account owner assuming a txn was processed
-  let remittance = await controllerContract.functions.deductFee(
-    agentContract.address,
-    convert(accountId.toString()),
-    tBal
+  // Mock idompotency generation and deduction
+  const mockIdempotencyKey = ethers.utils.keccak256(
+    ethers.utils.toUtf8Bytes("mockIdempotencyKey")
   );
+  const mockActualTokenUsage = 2;
+  const mockOperation = 2;
 
-  let remittanceTxn = await remittance.wait();
-  let remittanceTxnHash = remittanceTxn.transactionHash;
-  console.log(`\n- Transfer status: ${remittanceTxn.status}`);
-  console.log(`- https://hashscan.io/testnet/tx/${remittanceTxnHash}\n`);
+  await controllerContract.functions.generateIdempotencyKey(
+    agentContract.address,
+    ethers.utils.keccak256(ethers.utils.toUtf8Bytes("mockAPIRequest")),
+    1,
+    12
+  );
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+
+  // retrieve first active key;
+  const getActiveKeys = await controllerContract.functions.getActiveKeys();
+  console.log("Generated Idempotency Key:", getActiveKeys[0]);
 
   client.close();
+  return {
+    accountId,
+  };
 }
-
 main().catch((error) => {
   console.error(error);
   process.exit(1);

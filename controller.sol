@@ -46,9 +46,11 @@ contract ZeroComController {
     }
 
     // Hardcoded operation rates
-    uint256 public constant LOW_RATE = 2;
-    uint256 public constant MEDIUM_RATE = 5;
-    uint256 public constant HIGH_RATE = 10;
+    int64 public constant LOW_RATE = 2;
+    int64 public constant MEDIUM_RATE = 5;
+    int64 public constant HIGH_RATE = 10;
+
+    bytes32[] public activeKeys;
 
     mapping(address => uint256) public spendingCaps;
     mapping(address => bool) public isAgentFrozen;
@@ -112,10 +114,11 @@ contract ZeroComController {
     function generateIdempotencyKey(
         address agent,
         bytes32 requestHash,
-        OperationType predictedTokenUsage
+        OperationType predictedTokenUsage,
+        uint256 fixedNonce
     ) external onlyAgent returns (bytes32) {
         bytes32 idempotencyKey = keccak256(
-            abi.encodePacked(agent, requestHash, block.timestamp)
+            abi.encodePacked(agent, requestHash, fixedNonce)
         );
         require(
             !idempotencyKeys[idempotencyKey].processed,
@@ -126,6 +129,7 @@ contract ZeroComController {
             predictedTokenUsage: predictedTokenUsage,
             processed: false
         });
+        activeKeys.push(idempotencyKey);
         return idempotencyKey;
     }
 
@@ -133,13 +137,13 @@ contract ZeroComController {
         address agent,
         address revenueTeam,
         bytes32 idempotencyKey,
-        uint256 actualTokenUsage,
+        int64 actualTokenUsage,
         OperationType operation
     ) external onlyAgent {
         IdempotencyData storage data = idempotencyKeys[idempotencyKey];
         require(!data.processed, "Key already processed");
 
-        uint256 rate;
+        int64 rate;
         if (operation == OperationType.Low) {
             rate = LOW_RATE;
         } else if (operation == OperationType.Medium) {
@@ -147,12 +151,26 @@ contract ZeroComController {
         } else if (operation == OperationType.High) {
             rate = HIGH_RATE;
         }
-        int64 fee = int64(actualTokenUsage * rate);
+        int64 fee = actualTokenUsage * rate;
         IZeroComAgent(agent).transferToken(revenueTeam, fee);
         data.processed = true;
+
+        // Remove the key from the active keys array
+        for (uint256 i = 0; i < activeKeys.length; i++) {
+            if (activeKeys[i] == idempotencyKey) {
+                activeKeys[i] = activeKeys[activeKeys.length - 1];
+                activeKeys.pop();
+                break;
+            }
+        }
     }
 
     function getUserAgent(address user) public view returns (address) {
         return agents[user];
+    }
+
+    // Function to retrieve all active keys
+    function getActiveKeys() external view returns (bytes32[] memory) {
+        return activeKeys;
     }
 }
