@@ -2,6 +2,12 @@
 
 This repository contains the smart contract for ZeroCom, which manages operations and transactions for proxy AI agents within a decentralized environment. The contract handles agent registration, spending caps, operation rates, and idempotency key management.
 
+### Shortchuts
+
+- [Video](https://vimeo.com/1000969314)
+- [Frontend](https://github.com/acgodson/zerocom)
+
+
 ## Overview
 
 ZeroCom provides a deAI messaging platform.The smart contract allows `agents` to register themselves in the `controller`; set spending caps, process operations, and transfer tokens based on predefined or configurable rates.
@@ -57,8 +63,3 @@ npm install
 ```bash
 node zerocom-contracts/script-zerocom.js
 ```
-
-### Links
-
-[Video](https://vimeo.com/1000969314)
-[Frontend](https://github.com/acgodson/zerocom)
