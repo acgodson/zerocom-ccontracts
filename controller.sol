@@ -50,13 +50,12 @@ contract ZeroComController {
     int64 public constant MEDIUM_RATE = 5;
     int64 public constant HIGH_RATE = 10;
 
-    bytes32[] public activeKeys;
-
     mapping(address => uint256) public spendingCaps;
     mapping(address => bool) public isAgentFrozen;
     mapping(OperationType => uint256) public operationRates;
     mapping(address => address) public agents;
     mapping(bytes32 => IdempotencyData) public idempotencyKeys;
+    mapping(bytes32 => bytes32) private requestHashToKey; // filter to link requestHash to idempotencyKey
 
     modifier onlyAgent() {
         require(
@@ -129,7 +128,7 @@ contract ZeroComController {
             predictedTokenUsage: predictedTokenUsage,
             processed: false
         });
-        activeKeys.push(idempotencyKey);
+        requestHashToKey[requestHash] = idempotencyKey;
         return idempotencyKey;
     }
 
@@ -154,23 +153,15 @@ contract ZeroComController {
         int64 fee = actualTokenUsage * rate;
         IZeroComAgent(agent).transferToken(revenueTeam, fee);
         data.processed = true;
-
-        // Remove the key from the active keys array
-        for (uint256 i = 0; i < activeKeys.length; i++) {
-            if (activeKeys[i] == idempotencyKey) {
-                activeKeys[i] = activeKeys[activeKeys.length - 1];
-                activeKeys.pop();
-                break;
-            }
-        }
     }
 
     function getUserAgent(address user) public view returns (address) {
         return agents[user];
     }
 
-    // Function to retrieve all active keys
-    function getActiveKeys() external view returns (bytes32[] memory) {
-        return activeKeys;
+    function getKeyByRequestHash(
+        bytes32 requestHash
+    ) external view returns (bytes32) {
+        return requestHashToKey[requestHash];
     }
 }

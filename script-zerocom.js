@@ -186,7 +186,6 @@ async function main() {
   // transfer HBar
   // let x = await queries.trfHBar(accountId, operatorKey, client);
   // console.log(x);
-  // return;
 
   console.log("Creating token...");
   const { tokenId, tokenAddress } = await createToken(
@@ -195,9 +194,6 @@ async function main() {
     accountId
   );
   console.log("Token created at address:", tokenAddress);
-
-  // const tokenId = "0.0.4705149";
-  // const tokenAddress = "000000000000000000000000000000000047cb7d";
 
   console.log("Deploying controller contract...");
   const controllerContract = await deployControllerContract(
@@ -241,25 +237,47 @@ async function main() {
     tBal,
     operatorKey
   );
-
-  // Mock idompotency generation and deduction
-  const mockIdempotencyKey = ethers.utils.keccak256(
-    ethers.utils.toUtf8Bytes("mockIdempotencyKey")
+  // 0x6d9ee287fbb3ae79cc7a077c3a55974a9b668cc4e4760a39941f491c4514cebc
+  const hash = ethers.utils.keccak256(
+    ethers.utils.toUtf8Bytes("mockAPIRequest")
   );
-  const mockActualTokenUsage = 2;
-  const mockOperation = 2;
-
   await controllerContract.functions.generateIdempotencyKey(
     agentContract.address,
-    ethers.utils.keccak256(ethers.utils.toUtf8Bytes("mockAPIRequest")),
+    hash,
     1,
     12
   );
   await new Promise((resolve) => setTimeout(resolve, 3000));
+  const activeKey = await controllerContract.functions.getKeyByRequestHash(
+    hash
+  );
+  console.log("Generated  Key:", activeKey[0]);
 
-  // retrieve first active key;
-  const getActiveKeys = await controllerContract.functions.getActiveKeys();
-  console.log("Generated Idempotency Key:", getActiveKeys[0]);
+  const keyInfo1 = await controllerContract.functions.idempotencyKeys(
+    activeKey[0]
+  );
+  console.log("isKeyProcessed", keyInfo1);
+
+  const tokenCount = 1;
+  const operation = 1; //Low
+
+  const processKey = await controllerContract.functions.processIdempotencyKey(
+    agentContract.address,
+    convert(accountId.toString()),
+    activeKey[0],
+    tokenCount,
+    operation,
+    {
+      gasLimit: 15000000,
+    }
+  );
+
+  let processKeyTxn = await processKey.wait();
+
+  const keyInfo2 = await controllerContract.functions.idempotencyKeys(
+    activeKey[0]
+  );
+  console.log("isKeyProcessed", keyInfo2);
 
   client.close();
   return {

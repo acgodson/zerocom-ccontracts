@@ -126,7 +126,7 @@ export async function trfHBar(senderId, senderKey, client) {
   //Transfer HBAR
   const sendHbarTx = await new TransferTransaction()
     .addHbarTransfer(senderId, Hbar.fromTinybars(-10_000_000_000))
-    .addHbarTransfer("0.0.4704575", Hbar.fromTinybars(10_000_000_000)) //Receiving account
+    .addHbarTransfer("0.0.4716640", Hbar.fromTinybars(10_000_000_000)) //Receiving account
     .execute(client);
 
   // Verify the transaction reached consensus
